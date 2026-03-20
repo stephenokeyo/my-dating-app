@@ -1,0 +1,20 @@
+<div class="profile-container">
+    <h2>Your Profile</h2>
+    <form method="POST" action="{{ url_for('profile') }}" enctype="multipart/form-data">
+        <div class="profile-header">
+            <img src="{{ url_for('static', filename='uploads/' + current_user.image_file) }}" alt="Profile picture">
+        </div>
+
+        <div class="form-group">
+            <label for="bio">Bio</label><br>
+            <textarea name="bio" id="bio" rows="4" cols="40">{{ current_user.bio or '' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="picture">Upload new profile picture</label><br>
+            <input type="file" name="picture" id="picture">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>

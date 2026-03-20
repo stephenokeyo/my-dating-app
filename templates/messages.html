@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="messages-page">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+        <h2>Conversations</h2>
+        <a href="{{ url_for('new_message') }}" class="btn">+ New Message</a>
+    </div>
+    {% if threads %}
+        <div class="thread-list">
+            {% for thread in threads %}
+                <div class="thread-card">
+                    <div class="thread-info">
+                        <strong>{{ thread.partner.username }}</strong>
+                        <p>{{ thread.latest.content if thread.latest else 'No messages yet' }}</p>
+                    </div>
+                    <div class="thread-meta">
+                        {% if thread.unread > 0 %}
+                            <span class="badge">{{ thread.unread }} unread</span>
+                        {% endif %}
+                        <a href="{{ url_for('chat', user_id=thread.partner.id) }}" class="btn">Open Chat</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No conversations yet. Like someone and send a message!</p>
+    {% endif %}
+</div>
+{% endblock %}

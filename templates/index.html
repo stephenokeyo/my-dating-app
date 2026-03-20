@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="discover-grid">
+    {% if suggestions %}
+        {% for profile in suggestions %}
+            <div class="profile-card">
+                <img src="{{ url_for('static', filename='uploads/' + profile.image_file) }}" alt="{{ profile.username }}">
+                <div class="info">
+                    <h3>{{ profile.username }}</h3>
+                    <p>{{ profile.bio or 'No bio yet.' }}</p>
+                    <small>Interests: {{ profile.interests_list or 'None' }}</small>
+                </div>
+                <div class="actions">
+                    <a href="{{ url_for('like', user_id=profile.id) }}" class="btn like">❤ Like</a>
+                    <a href="{{ url_for('chat', user_id=profile.id) }}" class="btn chat">✉ Chat</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty">
+            <h3>No profiles found yet.</h3>
+            <p>Try updating your interests or wait for more people to join.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

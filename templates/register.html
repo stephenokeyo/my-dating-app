@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-container">
+    <h2>Join the Community</h2>
+    <form method="POST" action="{{ url_for('register') }}" enctype="multipart/form-data">
+        <input type="text" name="username" placeholder="Username" required><br>
+        <input type="email" name="email" placeholder="Email" required><br>
+        <input type="password" name="password" placeholder="Password" required><br>
+        <textarea name="bio" placeholder="Tell us about yourself..."></textarea><br>
+        <label>I am a:</label>
+        <select name="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select><br>
+        <label>Interested in:</label>
+        <select name="interest">
+            <option value="Female">Women</option>
+            <option value="Male">Men</option>
+            <option value="Both">Both</option>
+        </select><br>
+        <input type="text" name="interests_list" placeholder="Your interests (comma-separated)"><br>
+        <label>Upload Profile Picture:</label>
+        <input type="file" name="picture"><br>
+        <button type="submit">Sign Up</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="new-message-page">
+    <h2>Start a New Message</h2>
+
+    {% if recent_contacts %}
+    <div class="recent-contacts">
+        <h4>Recent Contacts</h4>
+        <div class="recent-list">
+            {% for user in recent_contacts %}
+                <a href="{{ url_for('chat', user_id=user.id) }}" class="recent-chip">{{ user.username }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('new_message') }}" class="new-message-form">
+        <label for="receiver_id">Choose user</label><br>
+        <select name="receiver_id" id="receiver_id" required>
+            <option value="">-- select user --</option>
+            {% for user in candidates %}
+                <option value="{{ user.id }}">{{ user.username }} ({{ user.email }})</option>
+            {% endfor %}
+        </select><br>
+        <label for="content">Message</label><br>
+        <textarea name="content" id="content" rows="4" style="width:100%;" required></textarea><br>
+        <button type="submit" class="btn">Send Message</button>
+    </form>
+</div>
+{% endblock %}

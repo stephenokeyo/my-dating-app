@@ -1,0 +1,43 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.9.4/socket.io.min.js"></script>
+<script>
+    const socket = io();
+    socket.emit('join', { room: "{{ current_user.id }}" });
+
+    const messageList = document.getElementById('messages');
+
+    function addMessage(text, type='info') {
+        const p = document.createElement('p');
+        p.innerText = text;
+        p.className = type;
+        messageList.appendChild(p);
+        messageList.scrollTop = messageList.scrollHeight;
+    }
+
+    function sendMessage() {
+        const msgInput = document.getElementById('message_input');
+        const msg = msgInput.value.trim();
+        if (!msg) return;
+        const recipientId = "{{ other_user.id }}";
+        socket.send({ msg, to: recipientId });
+        addMessage('You: ' + msg, 'you');
+        msgInput.value = '';
+    }
+
+    socket.on('message', function(data) {
+        addMessage(data.from + ': ' + data.msg, 'them');
+    });
+</script>
+
+<h2>Chat with {{ other_user.username }}</h2>
+<div id="chat-window" style="border:1px solid #ddd; padding:14px; border-radius:10px; background:#fff;">
+    <div id="messages" style="height:220px; overflow-y:auto; border:1px solid #eee; padding:10px; margin-bottom:10px; background:#fdfdfd;"></div>
+    <input type="text" id="message_input" placeholder="Type a message..." style="width:75%; padding:8px;" autocomplete="off">
+    <button onclick="sendMessage()" style="padding:8px 12px; margin-left:8px;">Send</button>
+</div>
+
+<h3>History</h3>
+<ul>
+    {% for m in messages %}
+        <li><strong>{{ m.sender }}:</strong> {{ m.content }}</li>
+    {% endfor %}
+</ul>
